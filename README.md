@@ -237,12 +237,119 @@ if(cid3 == 0) {
 
 #
 ### Jawab 3c
-jawab 3c
+Setelah direktori telah terisi dengan 10 gambar, program tersebut akan membuat sebuah file “status.txt”, dimana didalamnya berisi pesan “Download Success” yang terenkripsi dengan teknik Caesar Cipher dan dengan shift 5. Algoritma Caesar Cipher dilakukan dengan mengiterasi tiap huruf dari `Download Success` dan ditampung ke array variable yang baru. Penggeseran 5 karakter dengan memperhatikan huruf kecil dan huruf besar serta terdapat modulo 26 sehingga setelah `z / Z` kembali ke `a / A`.
+
+```c
+char text[] = "Download Success";
+char text2[100];
+memset(text2, 0, sizeof(text2));
+int key = 5;
+for(i = 0; i < strlen(text); i++){
+    if((int)islower(text[i])) text2[i] = (text[i]-'a'+key)%26 + 'a';
+    else if((int)isupper(text[i])) text2[i] = (text[i]-'A'+key)%26 + 'A';
+    else text2[i] = text[i];
+}
+```
+
+Setelah Caesar Cipher selesai dilakukan, masukkan hasil enkripsi ke file status.txt lalu keluar dari folder tersebut. Direktori kemudian di zip dan direktori akan didelete, sehingga menyisakan hanya file zip saja.
+
+```c
+FILE *filep;
+filep = fopen("status.txt", "w");
+fprintf(filep, "%s", text2);
+fclose(filep);
+
+chdir("..");
+char curtime3[100];
+sprintf(curtime3, "%s.zip", curtime);
+char *arg[] = {"zip", "-rm", curtime3, curtime, NULL};
+execv("/usr/bin/zip", arg);
+```
 
 #
 ### Jawab 3d
-jawab 3d
+Kita diminta untuk membuat `Killer.sh` dimana program tersebut akan menterminasi semua proses program yang sedang berjalan dan akan menghapus dirinya sendiri setelah program dijalankan. Pada awalnya cek argumen yang diterima. Jika jumlah argumen dan isi argumen yang diinput tidak sesuai, maka keluarkan pesan `Mode hanya ada -z atau -x` agar user mengetahui argumen yang seharusnya diinputkan. Jalankan daemon karena kita ingin program utama ini berjalan di latar belakang. Buat program bash killer yang penjelasannya terdapat pada soal e.
+
+```c
+int main(int argc, char* argv[]) {
+    if(argc != 2 || (argv[1][1] != 'z' && argv[1][1] != 'x')) {
+        printf("Mode hanya ada -z atau -x\n");
+        exit(0);
+    }
+    
+    daemonstart();
+    generatekiller(argv[1]);
+    int status, status2;
+    
+    //lanjut soal a
+}
+```
+
+Berikut isi dari fungsi `daemonstart()`.
+
+```c
+void daemonstart() {
+    pid_t pid, sid;
+    pid = fork();
+    if(pid < 0) exit(EXIT_FAILURE);
+    if(pid > 0) exit(EXIT_SUCCESS);
+    umask(0);
+    sid = setsid();
+    if(sid < 0) exit(EXIT_FAILURE);
+    if((chdir("/home/aldo/Sisop/Modul2/Soal3")) < 0) exit(EXIT_FAILURE);
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
+}
+```
 
 #
 ### Jawab 3e
-jawab 3e
+Buat program killer sesuai mode yang diinputkan. Terdapat 2 mode:
+
+- Mode `-z`. Ketika program killer dijalankan, maka program utama akan langsung menghentikan semua operasinya.
+
+```bash
+!/bin/bash
+
+killall -9 soal3
+echo 'Program killed successfully.'
+rm $0
+```
+
+`killall -9 soal3` berguna untuk menghentikan semua proses yang berjalan dari soal3.
+
+- Mode `-x`. Ketika program killer dijalankan, maka program utama akan berhenti namun membiarkan proses di setiap direktori yang masih berjalan hingga selesai (Direktori yang sudah dibuat akan mendownload gambar sampai selesai dan membuat file txt, lalu zip dan delete direktori).
+
+```bash
+!/bin/bash
+
+kill %d
+echo 'Program killed successfully.'
+rm $0
+```
+
+`kill %d` berguna untuk menghentikan proses dari program utama saja. `%d` akan diisi oleh pid program utama.
+
+Setelah program bash selesai dibuat, maka jalankan child untuk mengubah status file `Killer.sh` agar dapat dijalankan user.
+
+```c
+void generatekiller(char mode[]){
+    FILE *filep;
+    filep = fopen("Killer.sh", "w");
+    
+    if(strcmp(mode, "-z") == 0)
+        fprintf(filep, "#!/bin/bash \n killall -9 soal3 \n echo \'Program killed successfully.\' \n rm \"$0\"");
+    else if(strcmp(mode, "-x") == 0)
+        fprintf(filep, "#!/bin/bash \n kill %d \n echo \'Program killed successfully.\' \n rm \"$0\"", getpid());
+
+    fclose(filep);
+
+    pid_t pid;
+    pid = fork();
+    if(pid == 0){
+        char *arg[] = {"chmod", "+x", "Killer.sh", NULL};
+        execv("/bin/chmod", arg);
+    }
+}
+```
