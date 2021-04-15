@@ -160,11 +160,80 @@ Note:
 
 #
 ### Jawab 3a
-jawab 3a
+Pada soal ini kita diminta membuat direktori baru setiap 40 detik. Nama dari direktori mengikuti timestamp [YYYY-mm-dd_HH:ii:ss]. Pada mulanya, dapatkan waktu saat ini dan simpan ke array variable.
+
+```c
+char curtime[100];
+time_t now = time(NULL);
+struct tm *t1 = localtime(&now);
+strftime(curtime, sizeof(curtime)-1, "%Y-%m-%d_%H:%M:%S", t1);
+```
+
+Kemudian buat child karena nantinya akan dibuat menjadi daemon dan parent tidak menunggu child saat ini untuk menjalankan proses berikutnya. Beri `sleep(40)` agar proses berjalan setiap 40 detik.
+
+```c
+cid = fork();
+if(cid < 0) exit(0);
+if(cid == 0) {
+    //buat folder
+}
+sleep(40);
+```
+
+Buat child untuk membuat direktori baru lalu jalankan `wait()` untuk menunggu proses selesai sebelum lanjut ke proses berikutnya.
+
+```c
+//buat folder
+
+cid2 = fork();
+if(cid2 < 0) exit(0);
+if(cid2 == 0) {
+    char *arg[] = {"mkdir", curtime, NULL};
+    execv("/bin/mkdir", arg);
+}
+
+while(wait(&status) > 0);
+
+//lanjut soal b 
+```
 
 #
 ### Jawab 3b
-jawab 3b
+Pindah ke direktori sesuai timestamp, lalu lakukan iterasi download 10 gambar dan beri `sleep(5)` untuk jeda 5 detik setiap download. Jalankan `wait()` untuk menunggu proses download selesai sebelum lanjut ke proses berikutnya.
+
+```c
+chdir(curtime);
+int i = 0;
+char link[100], curtime2[100];
+while(i < 10) {
+    //download gambar
+
+    i++;
+    sleep(5);
+}
+
+while(wait(&status2) > 0);
+
+//lanjut soal c
+```
+
+Tambahkan ukuran gambar pada akhir alamat untuk mendownload gambar dikarenakan setiap gambar harus berukuran (n % 1000) + 50 pixel dimana n adalah detik Epoch Unix. Lalu untuk setiap gambar yang akan didownload akan dilakukan rename dengan timestamp saat ini.
+
+```c
+//download gambar
+
+time_t now2 = time(NULL);
+struct tm *t2 = localtime(&now2);
+strftime(curtime2, sizeof(curtime2)-1, "%Y-%m-%d_%H:%M:%S", t2);
+sprintf(link, "https://picsum.photos/%ld", (now2 % 1000) + 50);
+
+cid3 = fork();
+if(cid3 < 0) exit(0);
+if(cid3 == 0) {
+    char *arg[] = {"wget", link, "-O", curtime2, "-o", "/dev/null", NULL};
+    execv("/usr/bin/wget", arg);
+}
+```
 
 #
 ### Jawab 3c
