@@ -201,7 +201,59 @@ Membuat folder sesuai dengan jenis hewan peliharaan.
 ```
 #
 ### Jawab 2c
-jawab 2c
+Melihat setiap file dalam folder dan inisialisasi variabel yang akan digunakan nanti
+```c
+ while(wait(&status3) > 0);
+    DIR *dirp3;
+    struct dirent *entry3;
+    dirp3 = opendir("/home/aldo/modul2/petshop");
+    while((entry3 = readdir(dirp3)) != NULL) {
+        if(entry3->d_type == DT_REG) {
+            char tmp[300];
+            char tmp2_jenis[300], tmp2_nama[300], tmp2_umur[300];
+            char tmp3_jenis[300], tmp3_nama[300], tmp3_umur[300];
+            memset(tmp2_jenis, 0, sizeof(tmp2_jenis));
+            memset(tmp2_nama , 0, sizeof(tmp2_nama));
+            memset(tmp2_umur , 0, sizeof(tmp2_umur));
+            memset(tmp3_jenis, 0, sizeof(tmp3_jenis));
+            memset(tmp3_nama , 0, sizeof(tmp3_nama));
+            memset(tmp3_umur , 0, sizeof(tmp3_umur));
+            strcpy(tmp, entry3->d_name);
+```
+Menyimpan jenis, nama dan umur hewan peliharaan dalam variabel tmp2
+```c
+ int i, ii, found = 0, adadua = 0;
+            for(i = 0; i < strlen(tmp); i++) {
+                if(tmp[i] == ';') break;
+                tmp2_jenis[i] = tmp[i];
+            }
+            
+            i++; ii = i;
+            for(; i < strlen(tmp); i++) {
+                if(tmp[i] == ';') break;
+                tmp2_nama[i-ii] = tmp[i];
+            }
+            
+            i++; ii = i;
+            for(; i < strlen(tmp); i++) {
+                if(tmp[i] == '_' || (tmp[i] == '.' && tmp[i+1] == 'j')) break;
+                tmp2_umur[i-ii] = tmp[i];
+            }
+```
+Memindahkan foto ke folder dengan kategori yang sesuai dan di rename dengan nama peliharaan
+```c
+ int status, status2;
+            pid_t cid;
+            cid = fork();
+            if(cid < 0) exit(0);
+            if(cid == 0) {
+                char asal[300], tujuan[300];
+                sprintf(asal, "/home/aldo/modul2/petshop/%s", entry3->d_name);
+                sprintf(tujuan, "/home/aldo/modul2/petshop/%s/%s", tmp2_jenis, tmp2_nama);
+                char *arg[] = {"cp", "-r", asal, tujuan, NULL};
+                execv("/bin/cp", arg);
+            }
+```
 
 #
 ### Jawab 2d
