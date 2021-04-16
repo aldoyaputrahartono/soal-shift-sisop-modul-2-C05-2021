@@ -257,7 +257,44 @@ Memindahkan foto ke folder dengan kategori yang sesuai dan di rename dengan nama
 
 #
 ### Jawab 2d
-jawab 2d
+Mengecek apakah dalam satu foto terdapat 2 jenis hewan peliharaan, jika ada maka akan disimpan jenis, nama dan umur hewan yang kedua pada tmp3
+```c
+             if(tmp[i] == '_') {
+                i++; ii = i;
+                for(; i < strlen(tmp); i++) {
+                    if(tmp[i] == ';') break;
+                    tmp3_jenis[i-ii] = tmp[i];
+                }
+                
+                i++; ii = i;
+                for(; i < strlen(tmp); i++) {
+                    if(tmp[i] == ';') break;
+                    tmp3_nama[i-ii] = tmp[i];
+                }
+                
+                i++; ii = i;
+                for(; i < strlen(tmp); i++) {
+                    if(tmp[i] == '.' && tmp[i+1] == 'j') break;
+                    tmp3_umur[i-ii] = tmp[i];
+                }
+                
+                adadua = 1;
+            }
+```
+Memindahkan foto ke folder dengan kategori yang sesuai dan di rename dengan nama peliharaan
+```c
+ if(adadua == 1) {
+                pid_t cid;
+                cid = fork();
+                if(cid < 0) exit(0);
+                if(cid == 0) {
+                    char asal[300], tujuan[300];
+                    sprintf(asal, "/home/aldo/modul2/petshop/%s", entry3->d_name);
+                    sprintf(tujuan, "/home/aldo/modul2/petshop/%s/%s", tmp3_jenis, tmp3_nama);
+                    char *arg[] = {"cp", "-r", asal, tujuan, NULL};
+                    execv("/bin/cp", arg);
+                }
+```
 
 #
 ### Jawab 2e
