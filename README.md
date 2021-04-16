@@ -298,7 +298,28 @@ Memindahkan foto ke folder dengan kategori yang sesuai dan di rename dengan nama
 
 #
 ### Jawab 2e
-jawab 2e
+Menambahkan keterangan berupa nama dan umur hewan peliharaan sesuai didalam file "keterangan.txt" yang terdapat dalam setiap folder kategorinya
+```c
+            while(wait(&status) > 0);
+            char ket[300];
+            sprintf(ket, "/home/aldo/modul2/petshop/%s/keterangan.txt", tmp2_jenis);
+            FILE *filep;
+            filep = fopen(ket, "a+");
+            fprintf(filep, "nama : %s\n", tmp2_nama);
+            fprintf(filep, "umur : %s tahun\n\n", tmp2_umur);
+            fclose(filep);
+```
+Hal yang sama juga dilakukan ketika ada dua jenis hewan peliharaan dalam satu foto
+```c
+                while(wait(&status2) > 0);
+                char ket[300];
+                sprintf(ket, "/home/aldo/modul2/petshop/%s/keterangan.txt", tmp3_jenis);
+                FILE *filep;
+                filep = fopen(ket, "a+");
+                fprintf(filep, "nama : %s\n", tmp3_nama);
+                fprintf(filep, "umur : %s tahun\n\n", tmp3_umur);
+                fclose(filep);
+```
 
 #
 ## Penyelesaian Soal No.3
