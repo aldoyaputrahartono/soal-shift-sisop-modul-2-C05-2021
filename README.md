@@ -119,7 +119,36 @@ Loba sangat mengapresiasi bantuanmu, minggu depan ia akan mentraktir makan malam
 
 #
 ### Jawab 2a
-jawab 2a
+Pada soal ini kita diminta untuk mengekstrak zip yang diberikan ke dalam folder “/home/[user]/modul2/petshop” dengan menggunakan fork dan execv.
+```c
+pid_t cid;
+    cid = fork();
+    if(cid < 0) exit(0);
+    if(cid == 0) {
+        char *arg[] = {"unzip", "-o", "-q", "/home/aldo/modul2/pets.zip", "-d", "/home/aldo/modul2/petshop", NULL};
+        execv("/usr/bin/unzip", arg);
+    }
+```
+Selanjutnya dengan program berikut ini, kita dapat membedakan file dan folder sehingga dapat memproses file yang seharusnya dikerjakan dan menghapus folder-folder yang tidak dibutuhkan.
+```c
+while(wait(&status) > 0);
+    DIR *dirp;
+    struct dirent *entry;
+    dirp = opendir("/home/aldo/modul2/petshop");
+    while((entry = readdir(dirp)) != NULL) {
+        if((entry->d_type == DT_DIR) && strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0) {
+            pid_t cid;
+            cid = fork();
+            if(cid < 0) exit(0);
+            if(cid == 0) {
+                char foldername[300];
+                sprintf(foldername, "/home/aldo/modul2/petshop/%s", entry->d_name);
+                char *arg[] = {"rm", "-r", foldername, NULL};
+                execv("/bin/rm", arg);
+            }
+        }
+    }
+```
 
 #
 ### Jawab 2b
