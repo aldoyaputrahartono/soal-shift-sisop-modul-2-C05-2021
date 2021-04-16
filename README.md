@@ -152,8 +152,53 @@ while(wait(&status) > 0);
 
 #
 ### Jawab 2b
-jawab 2b
-
+Sebelum membuat folder pengkategorian hewan peliharaan, maka perlu diketahui jenis-jenis peliharaan yang nantinya akan dijadikan nama folder yang akan dibuat.
+```c
+while(wait(&status2) > 0);
+    DIR *dirp2;
+    struct dirent *entry2;
+    dirp2 = opendir("/home/aldo/modul2/petshop");
+    char foldername[100][300];
+    int idx = 0;
+    while((entry2 = readdir(dirp2)) != NULL) {
+        if(entry2->d_type == DT_REG) {
+            char tmp[300], tmp2[300];
+            memset(foldername[idx], 0, sizeof(foldername[idx]));
+            memset(tmp2, 0, sizeof(tmp2));
+            strcpy(tmp, entry2->d_name);
+            
+            int i, found = 0;
+            for(i = 0; i < strlen(tmp); i++) {
+                if(tmp[i] == ';') break;
+                tmp2[i] = tmp[i];
+            }
+            
+            for(i = 0; i < idx && found == 0; i++)
+                if(strcmp(foldername[i], tmp2) == 0)
+                    found = 1;
+            
+            if(found == 0) {
+                strcpy(foldername[idx], tmp2);
+                idx++;
+            }
+        }
+    }
+```
+Membuat folder sesuai dengan jenis hewan peliharaan.
+```c
+ int i;
+    for(i = 0; i < idx; i++) {
+        pid_t cid;
+        cid = fork();
+        if(cid < 0) exit(0);
+        if(cid == 0) {
+            char tmp[300];
+            sprintf(tmp, "/home/aldo/modul2/petshop/%s", foldername[i]);
+            char *arg[] = {"mkdir", tmp, NULL};
+            execv("/bin/mkdir", arg);
+        }
+    }
+```
 #
 ### Jawab 2c
 jawab 2c
