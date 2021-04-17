@@ -58,9 +58,8 @@ Wget --no-check-certificate "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISd
 
 #
 ### Jawab 1a
-jawab 1a
-pada soal 1a diminta untuk mengganti nama nama folder yang ada untuk mp3 diganti menjadi musyik,untuk mp4 menjadi fylm dan untuk jpg diganti menjadi pyoto,dikarenakan steven ingin menggunakannya pada waktu tertentu,maka kita menggunakan daemon untuk menggantikan crontab
-```
+Pada soal 1a diminta untuk membuat folder Musyik untuk mp3, Fylm untuk mp4, dan Pyoto untuk jpg. Dikarenakan Steven ingin menggunakannya pada waktu tertentu, maka kita menggunakan daemon untuk menggantikan crontab.
+```c
 void daemonstart() {
     pid_t pid, sid;
     pid = fork();
@@ -75,164 +74,219 @@ void daemonstart() {
     close(STDERR_FILENO);
 }
 ```
-lalu kita melakukan pembuatan folder sesuai keinginan soal dengan nama musyik,fylm,pyoto ,menggunakan fungsi ```exec``` untuk membuat folder tersebut,lalu kita menggunakan fungsi ```fork ()``` untuk setiap proses pembuatan folder.kita juga menggunakan ```fork()``` dan ```exec``` agar bisa dijalankan task secara bersamaan
-```
+
+Lalu kita melakukan pembuatan folder sesuai keinginan soal dengan nama Musyik, Fylm, dan Pyoto menggunakan fungsi `execv()` dengan argumen `mkdir`. Gunakan fungsi `fork()` untuk setiap proses pembuatan folder. Kita juga menggunakan `fork()` dan `exec()` agar bisa menjalankan task secara bersamaan.
+```c
 cid1 = fork();
-                if(cid1 < 0) exit(0);
-				if(cid1 == 0) {
-					char *arg[] = {"mkdir", "Musyik", NULL};
-					execv("/bin/mkdir", arg);
-				}
+if(cid1 < 0) exit(0);
+if(cid1 == 0) {
+	char *arg[] = {"mkdir", "Musyik", NULL};
+	execv("/bin/mkdir", arg);
+}
 
-				cid2 = fork();
-				if(cid2 < 0) exit(0);
-				if(cid2 == 0) {
-					char *arg[] = {"mkdir", "Fylm", NULL};
-					execv("/bin/mkdir", arg);
-				}
+cid2 = fork();
+if(cid2 < 0) exit(0);
+if(cid2 == 0) {
+	char *arg[] = {"mkdir", "Fylm", NULL};
+	execv("/bin/mkdir", arg);
+}
 
-				cid3 = fork();
-				if(cid3 < 0) exit(0);
-				if(cid3 == 0) {
-					char *arg[] = {"mkdir", "Pyoto", NULL};
-					execv("/bin/mkdir", arg);
-				}
+cid3 = fork();
+if(cid3 < 0) exit(0);
+if(cid3 == 0) {
+	char *arg[] = {"mkdir", "Pyoto", NULL};
+	execv("/bin/mkdir", arg);
+}
+
+//lanjut soal b
 ```
 
 #
 ### Jawab 1b
-jawab 1b
-lalu pada soal kedua kita diminta mendownload file file yang berada dari soal yang diantaranya ada file musik,foto,dan film,disini kita bisa menggunakan fungsi ```wget()``` untuk mendownload file tersebut,kita juga menggunakan ```fork()``` dan ```exec``` untuk menjalankan task secara bersamaan,fungsi exec disini digunakan untuk mengeksekusi bagian argumen pada code
-```
+Pada soal kedua kita diminta mendownload file musik, foto, dan film. Link download telah tersedia pada soal. Disini kita bisa menggunakan fungsi `wget()` untuk mendownload file tersebut. Kita juga menggunakan `fork()` dan `execv()` untuk menjalankan task secara bersamaan. Fungsi `execv()` disini digunakan untuk mengeksekusi bagian argumen pada code.
+```c
 while(wait(&status) > 0);
-				cid4 = fork();
-				if(cid4 < 0) exit(0);
-				if(cid4 == 0) {
-					char *arg[] = {"wget", "--no-check-certificate", "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download", "-O", "Musik_for_Stevany.zip", "-o", "/dev/null", NULL};
-					execv("/usr/bin/wget", arg);
-				}
+cid4 = fork();
+if(cid4 < 0) exit(0);
+if(cid4 == 0) {
+	char *arg[] = {"wget", "--no-check-certificate", "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download", "-O", "Musik_for_Stevany.zip", "-o", "/dev/null", NULL};
+	execv("/usr/bin/wget", arg);
+}
 
-				while(wait(&status2) > 0);
-				cid5 = fork();
-				if(cid5 < 0) exit(0);
-				if(cid5 == 0) {
-					char *arg[] = {"wget", "--no-check-certificate", "https://drive.google.com/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download", "-O", "Film_for_Stevany.zip", "-o", "/dev/null", NULL};
-					execv("/usr/bin/wget", arg);
-				}
+while(wait(&status2) > 0);
+cid5 = fork();
+if(cid5 < 0) exit(0);
+if(cid5 == 0) {
+	char *arg[] = {"wget", "--no-check-certificate", "https://drive.google.com/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download", "-O", "Film_for_Stevany.zip", "-o", "/dev/null", NULL};
+	execv("/usr/bin/wget", arg);
+}
 
-				while(wait(&status3) > 0);
-				cid6 = fork();
-				if(cid6 < 0) exit(0);
-				if(cid6 == 0) {
-					char *arg[] = {"wget", "--no-check-certificate", "https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download", "-O", "Foto_for_Stevany.zip", "-o", "/dev/null", NULL};
-					execv("/usr/bin/wget", arg);
-				}
+while(wait(&status3) > 0);
+cid6 = fork();
+if(cid6 < 0) exit(0);
+if(cid6 == 0) {
+	char *arg[] = {"wget", "--no-check-certificate", "https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download", "-O", "Foto_for_Stevany.zip", "-o", "/dev/null", NULL};
+	execv("/usr/bin/wget", arg);
+}
 ```
-pada saat menjalankan program diatas kita menggunakan fungsi ```wait()``` untuk menunggu proses yang sebelumnya dijalankan untuk selesai terlebih dahulu,pada code diatas fungsi wait menunggu pada proses sebelum code itu berjalan untuk selesai terlebih dahulu
+
+Pada saat menjalankan program diatas kita menggunakan fungsi `wait()` untuk menunggu proses yang sebelumnya dijalankan agar selesai terlebih dahulu.
+
 #
 ### Jawab 1c
-jawab 1c
-pada soal ketiga kita diminta untuk melakukan extract pada file nya setelah di download sehingga kita bisa menggunakan fungsi ```unzip``` pada masing masing folder musik,film,foto
-```
+Pada soal ketiga kita diminta untuk melakukan extract pada file yang telah didownload dengan menggunakan argumen `unzip` pada tiap folder musik, film, dan foto.
+```c
 while(wait(&status4) > 0);
-				cid7 = fork();
-				if(cid7 < 0) exit(0);
-				if(cid7 == 0) {
-					char *arg[] = {"unzip", "-o", "-q", "./Musik_for_Stevany.zip", NULL};
-					execv("/usr/bin/unzip", arg);
-				}
+cid7 = fork();
+if(cid7 < 0) exit(0);
+if(cid7 == 0) {
+	char *arg[] = {"unzip", "-o", "-q", "./Musik_for_Stevany.zip", NULL};
+	execv("/usr/bin/unzip", arg);
+}
 
-				while(wait(&status5) > 0);
-				cid8 = fork();
-				if(cid8 < 0) exit(0);
-				if(cid8 == 0) {
-					char *arg[] = {"unzip", "-o", "-q", "./Film_for_Stevany.zip", NULL};
-					execv("/usr/bin/unzip", arg);
-				}
+while(wait(&status5) > 0);
+cid8 = fork();
+if(cid8 < 0) exit(0);
+if(cid8 == 0) {
+	char *arg[] = {"unzip", "-o", "-q", "./Film_for_Stevany.zip", NULL};
+	execv("/usr/bin/unzip", arg);
+}
 
-				while(wait(&status6) > 0);
-				cid9 = fork();
-				if(cid9 < 0) exit(0);
-				if(cid9 == 0) {
-					char *arg[] = {"unzip", "-o", "-q", "./Foto_for_Stevany.zip", NULL};
-					execv("/usr/bin/unzip", arg);
-				}
+while(wait(&status6) > 0);
+cid9 = fork();
+if(cid9 < 0) exit(0);
+if(cid9 == 0) {
+	char *arg[] = {"unzip", "-o", "-q", "./Foto_for_Stevany.zip", NULL};
+	execv("/usr/bin/unzip", arg);
+}
 ```
-kita juga menggunakan ```fork()``` dan ```exec``` untuk menjalankan task secara bersamaan,fungsi exec disini digunakan untuk mengeksekusi bagian argumen pada code ,pada saat menjalankan program diatas kita menggunakan fungsi ```wait()``` untuk menunggu proses yang sebelumnya dijalankan untuk selesai terlebih dahulu,pada code diatas fungsi wait menunggu pada proses sebelum code itu berjalan untuk selesai terlebih dahulu
+
+Kita juga menggunakan `fork()` dan `execv()` untuk menjalankan task secara bersamaan. Pada saat menjalankan program diatas kita menggunakan fungsi `wait()` untuk menunggu proses yang sebelumnya dijalankan agar selesai terlebih dahulu.
+
 #
 ### Jawab 1d
-jawab 1d
-pada soal ini kita diminta untuk memindahkan file yang sudah kita download lalu kita memindahkannya kedalam nama folder yang sudah ditentukan menggunakan program tersebut
-```
+Pada soal ini kita diminta untuk memindahkan file yang sudah kita download ke dalam folder yang sudah ditentukan.
+```c
 while(wait(&status7) > 0);
-				DIR *dirp;
-				struct dirent *entry;
-				dirp = opendir("./MUSIK");
-				while((entry = readdir(dirp)) != NULL) {
-					if(entry->d_type == DT_REG) {
-						pid_t cid;
-						cid = fork();
-						if(cid < 0) exit(0);
-						if(cid == 0) {
-							char asal[300], tujuan[300];
-							sprintf(asal, "./MUSIK/%s", entry->d_name);
-							sprintf(tujuan, "./Musyik");
-							char *arg[] = {"cp", "-r", asal, tujuan, NULL};
-							execv("/bin/cp", arg);
-						}
-					}
-				}
-                
-               salah satu contoh untuk file musik
+DIR *dirp;
+struct dirent *entry;
+dirp = opendir("./MUSIK");
+while((entry = readdir(dirp)) != NULL) {
+	if(entry->d_type == DT_REG) {
+		pid_t cid;
+		cid = fork();
+		if(cid < 0) exit(0);
+		if(cid == 0) {
+			char asal[300], tujuan[300];
+			sprintf(asal, "./MUSIK/%s", entry->d_name);
+			sprintf(tujuan, "./Musyik");
+			char *arg[] = {"cp", "-r", asal, tujuan, NULL};
+			execv("/bin/cp", arg);
+		}
+	}
+}
 ```
-kita harus membuka file musik terlebih dahulu menggunakan ```opendir``` lalu menggunakan ```sprintf``` untuk menulis string yang diformat ke variable lalu disini kita menggunakan fungsi ```exec``` dengan fungsi yang sama pada soal soal sebelumnya.
-#
-### Jawab 1e
-jawab 1e
-pada soal ini kita diminta untuk menjalankan seluruh program diatas secara otomatis pada 6 jam sebelum stevany ulang tahun,disini kita melakukan pengaturan agar waktu yang digunakan tepat .
 
-```
-if(t->tm_mon == 3 && t->tm_mday == 9 && t->tm_hour == 16 && t->tm_min == 22 && t->tm_sec == 0) {
+Kita harus membuka folder MUSIK terlebih dahulu menggunakan `opendir()` lalu iterasi tiap file di dalamnya dengan fungsi `readdir()`. Gunakan `sprintf()` untuk menulis string yang diformat ke variable. Salin tiap file ke folder tujuan dengan argumen `cp`. Lakukan hal yang sama pada folder FILM dan FOTO.
+
+```c
+while(wait(&status8) > 0);
+DIR *dirp2;
+struct dirent *entry2;
+dirp2 = opendir("./FILM");
+while((entry2 = readdir(dirp2)) != NULL) {
+	if(entry2->d_type == DT_REG) {
+		pid_t cid;
+		cid = fork();
+		if(cid < 0) exit(0);
+		if(cid == 0) {
+			char asal[300], tujuan[300];
+			sprintf(asal, "./FILM/%s", entry2->d_name);
+			sprintf(tujuan, "./Fylm");
+			char *arg[] = {"cp", "-r", asal, tujuan, NULL};
+			execv("/bin/cp", arg);
+		}
+	}
+}
+
+while(wait(&status9) > 0);
+DIR *dirp3;
+struct dirent *entry3;
+dirp3 = opendir("./FOTO");
+while((entry3 = readdir(dirp3)) != NULL) {
+	if(entry3->d_type == DT_REG) {
+		if(strstr(entry3->d_name, ".jpg")) {
+			pid_t cid;
 			cid = fork();
 			if(cid < 0) exit(0);
 			if(cid == 0) {
+				char asal[300], tujuan[300];
+				sprintf(asal, "./FOTO/%s", entry3->d_name);
+				sprintf(tujuan, "./Pyoto");
+				char *arg[] = {"cp", "-r", asal, tujuan, NULL};
+				execv("/bin/cp", arg);
+			}
+		}
+	}
+}
 ```
-code diatas digunakan penggunaan waktu tepat 6 jam sebelum ulang tahun stevany jika menggunakan waktu maka waktunya adalah 16:21:59
+
+#
+### Jawab 1e
+Pada soal ini kita diminta untuk menjalankan seluruh program di atas secara otomatis pada 6 jam sebelum Stevany ulang tahun, yaitu pada 09 April Pukul 16:22 WIB. Disini kita melakukan pengaturan agar waktu yang digunakan tepat.
+```c
+time_t now = time(NULL);
+struct tm *t = localtime(&now);
+if(t->tm_mon == 3 && t->tm_mday == 9 && t->tm_hour == 16 && t->tm_min == 22 && t->tm_sec == 0) {
+	cid = fork();
+	if(cid < 0) exit(0);
+	if(cid == 0) {
+		//lanjut soal a hingga d
+		
+		while(wait(&status10) > 0);
+		exit(0);
+	}
+}
+```
+
+Lakukan penggantian waktu dan tanggal pada linux dengan menjalankan command `sudo date --set="2021-04-09 16:21:59"` untuk melihat apakah script telah berjalan dengan benar.
 
 #
 ### Jawab 1f
-jawab 1f
+Pada soal 1f kita diminta untuk melakukan zip dengan menggunakan argumen `zip` lalu semua folder akan dihapus. Hal ini dilakukan pada saat ulang tahun Stevany, yaitu pada 09 April Pukul 22:22 WIB.
 
-pada soal 1f kita diminta untuk melakukan zip dengan menggunakan perintah ```zip``` lalu semua folder akan di delete sehingga codenya seperti ini
-
-```else if(t->tm_mon == 3 && t->tm_mday == 9 && t->tm_hour == 22 && t->tm_min == 22 && t->tm_sec == 0) {
-			cid12 = fork();
-    	    if(cid12 < 0) exit(0);
-	        if(cid12 == 0) {
-				cid10 = fork();
-				if(cid10 < 0) exit(0);
-				if(cid10 == 0) {
-					char *arg[] = {"zip", "-q", "-rm", "Lopyu_Stevany.zip", "./Musyik", "./Fylm", "./Pyoto", NULL};
-					execv("/usr/bin/zip", arg);
-				}
-				
-				cid11 = fork();
-				if(cid11 < 0) exit(0);
-				if(cid11 == 0) {
-					char *arg[] = {"rm", "-r", "./MUSIK", "./FILM", "./FOTO", NULL};
-					execv("/bin/rm", arg);
-				}
-				
-				while(wait(&status11) > 0);
-				exit(0);
-			}
+```c
+else if(t->tm_mon == 3 && t->tm_mday == 9 && t->tm_hour == 22 && t->tm_min == 22 && t->tm_sec == 0) {
+	cid12 = fork();
+	if(cid12 < 0) exit(0);
+	if(cid12 == 0) {
+		cid10 = fork();
+		if(cid10 < 0) exit(0);
+		if(cid10 == 0) {
+			char *arg[] = {"zip", "-q", "-rm", "Lopyu_Stevany.zip", "./Musyik", "./Fylm", "./Pyoto", NULL};
+			execv("/usr/bin/zip", arg);
 		}
-		
+
+		cid11 = fork();
+		if(cid11 < 0) exit(0);
+		if(cid11 == 0) {
+			char *arg[] = {"rm", "-r", "./MUSIK", "./FILM", "./FOTO", NULL};
+			execv("/bin/rm", arg);
+		}
+
+		while(wait(&status11) > 0);
+		exit(0);
+	}
+}
 ```
-code diatas juga merupakan waktu yang hampir sama seperti sebelumnya namun penggunaan waktunya berbeda dari sebelumnya pada soal ini digunakan waktu 22:21:59
+
+Lakukan penggantian waktu dan tanggal pada linux dengan menjalankan command `sudo date --set="2021-04-09 22:21:59"` untuk melihat apakah script telah berjalan dengan benar.
+
 #
 ### Kendala
-Isi kendala
+1. Agak kesusahan saat mengganti waktu dan tanggal karena ternyata auto synchronize nya masih aktif. Dengan mematikannya sementara maka command untuk mengganti waktu dan tanggal dapat berjalan dengan baik.
+2. Sedikit ada trouble saat mendownload file menjadi zip dikarenakan ada kesalahan pada argumen.
+3. Sempat mengira program tidak dapat melakukan unzip dikarenakan file yang masuk ke dalam folder hanya sedikit. Ternyata hanya butuh sedikit tambahan waktu hingga proses unzip dapat selesai seluruhnya.
 
 #
 ## Penyelesaian Soal No.2
@@ -501,8 +555,9 @@ fclose(filep);
 
 #
 ### Kendala
-1. Agak kesulitan dalam menentukan argumen apa saja yang ada dalam arg pada execv namun dapat diatasi dengan searching dan tanya teman satu kelompok.
-2. Pada saat membuat dan menambah data dalam suatu file sempat berjalan tidak sesuai keinginan karena adanya kesalahan penulisan sintaks
+1. Agak kesulitan dalam menentukan argumen apa saja yang ada dalam arg pada `execv` namun dapat diatasi dengan searching dan tanya teman satu kelompok.
+2. Pada saat membuat dan menambah data dalam suatu file sempat berjalan tidak sesuai keinginan karena adanya kesalahan penulisan sintaks.
+3. Sedikit ada kendala saat ingin mengerjakan soal e dan akhirnya teratasi dengan mengerjakannya bersamaan dengan soal c dan d. Sehingga saat iterasi menyalin gambar, sekaligus mengisi keterangan.txt.
 
 #
 ## Penyelesaian Soal No.3
