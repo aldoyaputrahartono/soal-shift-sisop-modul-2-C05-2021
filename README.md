@@ -59,22 +59,143 @@ Wget --no-check-certificate "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISd
 #
 ### Jawab 1a
 jawab 1a
+pada soal 1a diminta untuk mengganti nama nama folder yang ada untuk mp3 diganti menjadi musyik,untuk mp4 menjadi fylm dan untuk jpg diganti menjadi pyoto,dikarenakan steven ingin menggunakannya pada waktu tertentu,maka kita menggunakan daemon untuk menggantikan crontab
+```
+void daemonstart() {
+    pid_t pid, sid;
+    pid = fork();
+    if(pid < 0) exit(EXIT_FAILURE);
+    if(pid > 0) exit(EXIT_SUCCESS);
+    umask(0);
+    sid = setsid();
+    if(sid < 0) exit(EXIT_FAILURE);
+    if((chdir("/home/aldo/Sisop/Modul2/Soal3")) < 0) exit(EXIT_FAILURE);
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
+}
+```
+lalu kita melakukan pembuatan folder sesuai keinginan soal dengan nama musyik,fylm,pyoto ,menggunakan fungsi ```exec``` untuk membuat folder tersebut,lalu kita menggunakan fungsi ```fork ()``` untuk setiap proses pembuatan folder.kita juga menggunakan ```fork()``` dan ```exec``` agar bisa dijalankan task secara bersamaan
+```
+cid1 = fork();
+                if(cid1 < 0) exit(0);
+				if(cid1 == 0) {
+					char *arg[] = {"mkdir", "Musyik", NULL};
+					execv("/bin/mkdir", arg);
+				}
+
+				cid2 = fork();
+				if(cid2 < 0) exit(0);
+				if(cid2 == 0) {
+					char *arg[] = {"mkdir", "Fylm", NULL};
+					execv("/bin/mkdir", arg);
+				}
+
+				cid3 = fork();
+				if(cid3 < 0) exit(0);
+				if(cid3 == 0) {
+					char *arg[] = {"mkdir", "Pyoto", NULL};
+					execv("/bin/mkdir", arg);
+				}
+```
 
 #
 ### Jawab 1b
 jawab 1b
+lalu pada soal kedua kita diminta mendownload file file yang berada dari soal yang diantaranya ada file musik,foto,dan film,disini kita bisa menggunakan fungsi ```wget()``` untuk mendownload file tersebut,kita juga menggunakan ```fork()``` dan ```exec``` untuk menjalankan task secara bersamaan
+```
+while(wait(&status) > 0);
+				cid4 = fork();
+				if(cid4 < 0) exit(0);
+				if(cid4 == 0) {
+					char *arg[] = {"wget", "--no-check-certificate", "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download", "-O", "Musik_for_Stevany.zip", "-o", "/dev/null", NULL};
+					execv("/usr/bin/wget", arg);
+				}
 
+				while(wait(&status2) > 0);
+				cid5 = fork();
+				if(cid5 < 0) exit(0);
+				if(cid5 == 0) {
+					char *arg[] = {"wget", "--no-check-certificate", "https://drive.google.com/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download", "-O", "Film_for_Stevany.zip", "-o", "/dev/null", NULL};
+					execv("/usr/bin/wget", arg);
+				}
+
+				while(wait(&status3) > 0);
+				cid6 = fork();
+				if(cid6 < 0) exit(0);
+				if(cid6 == 0) {
+					char *arg[] = {"wget", "--no-check-certificate", "https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download", "-O", "Foto_for_Stevany.zip", "-o", "/dev/null", NULL};
+					execv("/usr/bin/wget", arg);
+				}
+```
+pada saat menjalankan program diatas kita menggunakan fungsi ```wait()``` untuk menunggu proses yang sebelumnya dijalankan untuk selesai terlebih dahulu
 #
 ### Jawab 1c
 jawab 1c
+pada soal ketiga kita diminta untuk melakukan extract pada file nya setelah di download sehingga kita bisa menggunakan fungsi ```unzip``` pada masing masing folder musik,film,foto
+```
+while(wait(&status4) > 0);
+				cid7 = fork();
+				if(cid7 < 0) exit(0);
+				if(cid7 == 0) {
+					char *arg[] = {"unzip", "-o", "-q", "./Musik_for_Stevany.zip", NULL};
+					execv("/usr/bin/unzip", arg);
+				}
 
+				while(wait(&status5) > 0);
+				cid8 = fork();
+				if(cid8 < 0) exit(0);
+				if(cid8 == 0) {
+					char *arg[] = {"unzip", "-o", "-q", "./Film_for_Stevany.zip", NULL};
+					execv("/usr/bin/unzip", arg);
+				}
+
+				while(wait(&status6) > 0);
+				cid9 = fork();
+				if(cid9 < 0) exit(0);
+				if(cid9 == 0) {
+					char *arg[] = {"unzip", "-o", "-q", "./Foto_for_Stevany.zip", NULL};
+					execv("/usr/bin/unzip", arg);
+				}
+```
 #
 ### Jawab 1d
 jawab 1d
-
+pada soal ini kita diminta untuk memindahkan file yang sudah kita download lalu kita memindahkannya kedalam nama folder yang sudah ditentukan menggunakan program tersebut
+```
+while(wait(&status7) > 0);
+				DIR *dirp;
+				struct dirent *entry;
+				dirp = opendir("./MUSIK");
+				while((entry = readdir(dirp)) != NULL) {
+					if(entry->d_type == DT_REG) {
+						pid_t cid;
+						cid = fork();
+						if(cid < 0) exit(0);
+						if(cid == 0) {
+							char asal[300], tujuan[300];
+							sprintf(asal, "./MUSIK/%s", entry->d_name);
+							sprintf(tujuan, "./Musyik");
+							char *arg[] = {"cp", "-r", asal, tujuan, NULL};
+							execv("/bin/cp", arg);
+						}
+					}
+				}
+                
+               salah satu contoh untuk file musik
+```
+kita harus membuka file musik terlebih dahulu menggunakan ```opendir```
 #
 ### Jawab 1e
 jawab 1e
+
+```
+if(t->tm_mon == 3 && t->tm_mday == 9 && t->tm_hour == 16 && t->tm_min == 22 && t->tm_sec == 0) {
+			cid = fork();
+			if(cid < 0) exit(0);
+			if(cid == 0) {
+```
+
 
 #
 ### Jawab 1f
@@ -339,8 +460,7 @@ Hal yang sama juga dilakukan ketika ada dua jenis hewan peliharaan dalam satu fo
 
 #
 ### Kendala
-1. Agak kesulitan dalam menentukan argumen apa saja yang ada dalam arg pada execv namun dapat diatasi dengan searching dan tanya teman satu kelompok.
-2. Pada saat membuat dan menambah data dalam suatu file sempat berjalan tidak sesuai keinginan karena adanya kesalahan penulisan sintaks
+Isi kendala
 
 #
 ## Penyelesaian Soal No.3
