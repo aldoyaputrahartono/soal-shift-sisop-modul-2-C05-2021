@@ -376,120 +376,133 @@ while((entry3 = readdir(dirp3)) != NULL) {
         memset(tmp3_nama , 0, sizeof(tmp3_nama));
         memset(tmp3_umur , 0, sizeof(tmp3_umur));
         strcpy(tmp, entry3->d_name);
+	
+	//lanjut penyimpanan data tiap hewan
 ```
 
 Menyimpan jenis, nama, dan umur hewan peliharaan pertama dalam variabel tmp2.
 ```c
-        int i, ii, found = 0, adadua = 0;
-        for(i = 0; i < strlen(tmp); i++) {
-            if(tmp[i] == ';') break;
-            tmp2_jenis[i] = tmp[i];
-        }
+//penyimpanan data tiap hewan
 
-        i++; ii = i;
-        for(; i < strlen(tmp); i++) {
-            if(tmp[i] == ';') break;
-            tmp2_nama[i-ii] = tmp[i];
-        }
+int i, ii, found = 0, adadua = 0;
+for(i = 0; i < strlen(tmp); i++) {
+    if(tmp[i] == ';') break;
+    tmp2_jenis[i] = tmp[i];
+}
 
-        i++; ii = i;
-        for(; i < strlen(tmp); i++) {
-            if(tmp[i] == '_' || (tmp[i] == '.' && tmp[i+1] == 'j')) break;
-            tmp2_umur[i-ii] = tmp[i];
-        }
+i++; ii = i;
+for(; i < strlen(tmp); i++) {
+    if(tmp[i] == ';') break;
+    tmp2_nama[i-ii] = tmp[i];
+}
+
+i++; ii = i;
+for(; i < strlen(tmp); i++) {
+    if(tmp[i] == '_' || (tmp[i] == '.' && tmp[i+1] == 'j')) break;
+    tmp2_umur[i-ii] = tmp[i];
+}
+
+//lanjut penyalinan foto ke folder
 ```
 
 Menyalin foto ke folder dengan kategori yang sesuai dan di rename dengan nama peliharaan.
 ```c
-        int status, status2;
-        pid_t cid;
-        cid = fork();
-        if(cid < 0) exit(0);
-        if(cid == 0) {
-            char asal[300], tujuan[300];
-            sprintf(asal, "/home/aldo/modul2/petshop/%s", entry3->d_name);
-            sprintf(tujuan, "/home/aldo/modul2/petshop/%s/%s", tmp2_jenis, tmp2_nama);
-            char *arg[] = {"cp", "-r", asal, tujuan, NULL};
-            execv("/bin/cp", arg);
-        }
-        
-        //lanjut soal e
+//penyalinan foto ke folder
+
+int status, status2;
+pid_t cid;
+cid = fork();
+if(cid < 0) exit(0);
+if(cid == 0) {
+    char asal[300], tujuan[300];
+    sprintf(asal, "/home/aldo/modul2/petshop/%s", entry3->d_name);
+    sprintf(tujuan, "/home/aldo/modul2/petshop/%s/%s", tmp2_jenis, tmp2_nama);
+    char *arg[] = {"cp", "-r", asal, tujuan, NULL};
+    execv("/bin/cp", arg);
+}
+
+//lanjut soal e
 ```
 
 #
 ### Jawab 2d
 Mengecek apakah dalam satu foto terdapat 2 jenis hewan peliharaan, jika ada maka akan disimpan jenis, nama, dan umur hewan yang kedua pada tmp3.
 ```c
-        if(tmp[i] == '_') {
-            i++; ii = i;
-            for(; i < strlen(tmp); i++) {
-                if(tmp[i] == ';') break;
-                tmp3_jenis[i-ii] = tmp[i];
-            }
+if(tmp[i] == '_') {
+    i++; ii = i;
+    for(; i < strlen(tmp); i++) {
+	if(tmp[i] == ';') break;
+	tmp3_jenis[i-ii] = tmp[i];
+    }
 
-            i++; ii = i;
-            for(; i < strlen(tmp); i++) {
-                if(tmp[i] == ';') break;
-                tmp3_nama[i-ii] = tmp[i];
-            }
+    i++; ii = i;
+    for(; i < strlen(tmp); i++) {
+	if(tmp[i] == ';') break;
+	tmp3_nama[i-ii] = tmp[i];
+    }
 
-            i++; ii = i;
-            for(; i < strlen(tmp); i++) {
-                if(tmp[i] == '.' && tmp[i+1] == 'j') break;
-                tmp3_umur[i-ii] = tmp[i];
-            }
+    i++; ii = i;
+    for(; i < strlen(tmp); i++) {
+	if(tmp[i] == '.' && tmp[i+1] == 'j') break;
+	tmp3_umur[i-ii] = tmp[i];
+    }
 
-            adadua = 1;
-        }
+    adadua = 1;
+}
+
+//lanjut penyalinan foto ke folder
 ```
 
 Memindahkan foto ke folder dengan kategori yang sesuai dan di rename dengan nama peliharaan.
 ```c
-        if(adadua == 1) {
-            pid_t cid;
-            cid = fork();
-            if(cid < 0) exit(0);
-            if(cid == 0) {
-                char asal[300], tujuan[300];
-                sprintf(asal, "/home/aldo/modul2/petshop/%s", entry3->d_name);
-                sprintf(tujuan, "/home/aldo/modul2/petshop/%s/%s", tmp3_jenis, tmp3_nama);
-                char *arg[] = {"cp", "-r", asal, tujuan, NULL};
-                execv("/bin/cp", arg);
-            }
-            
-            //lanjut soal e
-        }
+//penyalinan foto ke folder
+
+if(adadua == 1) {
+    pid_t cid;
+    cid = fork();
+    if(cid < 0) exit(0);
+    if(cid == 0) {
+	char asal[300], tujuan[300];
+	sprintf(asal, "/home/aldo/modul2/petshop/%s", entry3->d_name);
+	sprintf(tujuan, "/home/aldo/modul2/petshop/%s/%s", tmp3_jenis, tmp3_nama);
+	char *arg[] = {"cp", "-r", asal, tujuan, NULL};
+	execv("/bin/cp", arg);
+    }
+
+    //lanjut soal e
+}
 ```
 
 #
 ### Jawab 2e
 Menambahkan keterangan berupa nama dan umur hewan peliharaan sesuai didalam file "keterangan.txt" yang terdapat dalam setiap folder kategorinya.
 ```c
-        while(wait(&status) > 0);
-        char ket[300];
-        sprintf(ket, "/home/aldo/modul2/petshop/%s/keterangan.txt", tmp2_jenis);
-        FILE *filep;
-        filep = fopen(ket, "a+");
-        fprintf(filep, "nama : %s\n", tmp2_nama);
-        fprintf(filep, "umur : %s tahun\n\n", tmp2_umur);
-        fclose(filep);
+while(wait(&status) > 0);
+char ket[300];
+sprintf(ket, "/home/aldo/modul2/petshop/%s/keterangan.txt", tmp2_jenis);
+FILE *filep;
+filep = fopen(ket, "a+");
+fprintf(filep, "nama : %s\n", tmp2_nama);
+fprintf(filep, "umur : %s tahun\n\n", tmp2_umur);
+fclose(filep);
 ```
 
 Hal yang sama juga dilakukan ketika ada dua jenis hewan peliharaan dalam satu foto.
 ```c
-        while(wait(&status2) > 0);
-        char ket[300];
-        sprintf(ket, "/home/aldo/modul2/petshop/%s/keterangan.txt", tmp3_jenis);
-        FILE *filep;
-        filep = fopen(ket, "a+");
-        fprintf(filep, "nama : %s\n", tmp3_nama);
-        fprintf(filep, "umur : %s tahun\n\n", tmp3_umur);
-        fclose(filep);
+while(wait(&status2) > 0);
+char ket[300];
+sprintf(ket, "/home/aldo/modul2/petshop/%s/keterangan.txt", tmp3_jenis);
+FILE *filep;
+filep = fopen(ket, "a+");
+fprintf(filep, "nama : %s\n", tmp3_nama);
+fprintf(filep, "umur : %s tahun\n\n", tmp3_umur);
+fclose(filep);
 ```
 
 #
 ### Kendala
-Isi kendala
+1. Agak kesulitan dalam menentukan argumen apa saja yang ada dalam arg pada execv namun dapat diatasi dengan searching dan tanya teman satu kelompok.
+2. Pada saat membuat dan menambah data dalam suatu file sempat berjalan tidak sesuai keinginan karena adanya kesalahan penulisan sintaks
 
 #
 ## Penyelesaian Soal No.3
