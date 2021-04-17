@@ -102,7 +102,7 @@ cid1 = fork();
 #
 ### Jawab 1b
 jawab 1b
-lalu pada soal kedua kita diminta mendownload file file yang berada dari soal yang diantaranya ada file musik,foto,dan film,disini kita bisa menggunakan fungsi ```wget()``` untuk mendownload file tersebut,kita juga menggunakan ```fork()``` dan ```exec``` untuk menjalankan task secara bersamaan
+lalu pada soal kedua kita diminta mendownload file file yang berada dari soal yang diantaranya ada file musik,foto,dan film,disini kita bisa menggunakan fungsi ```wget()``` untuk mendownload file tersebut,kita juga menggunakan ```fork()``` dan ```exec``` untuk menjalankan task secara bersamaan,fungsi exec disini digunakan untuk mengeksekusi bagian argumen pada code
 ```
 while(wait(&status) > 0);
 				cid4 = fork();
@@ -128,7 +128,7 @@ while(wait(&status) > 0);
 					execv("/usr/bin/wget", arg);
 				}
 ```
-pada saat menjalankan program diatas kita menggunakan fungsi ```wait()``` untuk menunggu proses yang sebelumnya dijalankan untuk selesai terlebih dahulu
+pada saat menjalankan program diatas kita menggunakan fungsi ```wait()``` untuk menunggu proses yang sebelumnya dijalankan untuk selesai terlebih dahulu,pada code diatas fungsi wait menunggu pada proses sebelum code itu berjalan untuk selesai terlebih dahulu
 #
 ### Jawab 1c
 jawab 1c
@@ -158,6 +158,7 @@ while(wait(&status4) > 0);
 					execv("/usr/bin/unzip", arg);
 				}
 ```
+kita juga menggunakan ```fork()``` dan ```exec``` untuk menjalankan task secara bersamaan,fungsi exec disini digunakan untuk mengeksekusi bagian argumen pada code ,pada saat menjalankan program diatas kita menggunakan fungsi ```wait()``` untuk menunggu proses yang sebelumnya dijalankan untuk selesai terlebih dahulu,pada code diatas fungsi wait menunggu pada proses sebelum code itu berjalan untuk selesai terlebih dahulu
 #
 ### Jawab 1d
 jawab 1d
@@ -184,10 +185,11 @@ while(wait(&status7) > 0);
                 
                salah satu contoh untuk file musik
 ```
-kita harus membuka file musik terlebih dahulu menggunakan ```opendir```
+kita harus membuka file musik terlebih dahulu menggunakan ```opendir``` lalu menggunakan ```sprintf``` untuk menulis string yang diformat ke variable lalu disini kita menggunakan fungsi ```exec``` dengan fungsi yang sama pada soal soal sebelumnya.
 #
 ### Jawab 1e
 jawab 1e
+pada soal ini kita diminta untuk menjalankan seluruh program diatas secara otomatis pada 6 jam sebelum stevany ulang tahun,disini kita melakukan pengaturan agar waktu yang digunakan tepat .
 
 ```
 if(t->tm_mon == 3 && t->tm_mday == 9 && t->tm_hour == 16 && t->tm_min == 22 && t->tm_sec == 0) {
@@ -195,12 +197,39 @@ if(t->tm_mon == 3 && t->tm_mday == 9 && t->tm_hour == 16 && t->tm_min == 22 && t
 			if(cid < 0) exit(0);
 			if(cid == 0) {
 ```
-
+code diatas digunakan penggunaan waktu tepat 6 jam sebelum ulang tahun stevany jika menggunakan waktu maka waktunya adalah 16:21:59
 
 #
 ### Jawab 1f
 jawab 1f
 
+pada soal 1f kita diminta untuk melakukan zip dengan menggunakan perintah ```zip``` lalu semua folder akan di delete sehingga codenya seperti ini
+
+```else if(t->tm_mon == 3 && t->tm_mday == 9 && t->tm_hour == 22 && t->tm_min == 22 && t->tm_sec == 0) {
+			cid12 = fork();
+    	    if(cid12 < 0) exit(0);
+	        if(cid12 == 0) {
+				cid10 = fork();
+				if(cid10 < 0) exit(0);
+				if(cid10 == 0) {
+					char *arg[] = {"zip", "-q", "-rm", "Lopyu_Stevany.zip", "./Musyik", "./Fylm", "./Pyoto", NULL};
+					execv("/usr/bin/zip", arg);
+				}
+				
+				cid11 = fork();
+				if(cid11 < 0) exit(0);
+				if(cid11 == 0) {
+					char *arg[] = {"rm", "-r", "./MUSIK", "./FILM", "./FOTO", NULL};
+					execv("/bin/rm", arg);
+				}
+				
+				while(wait(&status11) > 0);
+				exit(0);
+			}
+		}
+		
+```
+code diatas juga merupakan waktu yang hampir sama seperti sebelumnya namun penggunaan waktunya berbeda dari sebelumnya pada soal ini digunakan waktu 22:21:59
 #
 ### Kendala
 Isi kendala
