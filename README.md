@@ -339,7 +339,8 @@ Hal yang sama juga dilakukan ketika ada dua jenis hewan peliharaan dalam satu fo
 
 #
 ### Kendala
-Isi kendala
+1. Agak kesulitan dalam menentukan argumen apa saja yang ada dalam arg pada execv namun dapat diatasi dengan searching dan tanya teman satu kelompok.
+2. Pada saat membuat dan menambah data dalam suatu file sempat berjalan tidak sesuai keinginan karena adanya kesalahan penulisan sintaks
 
 #
 ## Penyelesaian Soal No.3
