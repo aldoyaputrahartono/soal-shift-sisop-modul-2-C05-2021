@@ -554,6 +554,10 @@ fclose(filep);
 ```
 
 #
+### Cek keterangan.txt
+https://gist.github.com/segi3/0f90621bb2d118b0b6fadc98d5835b02
+
+#
 ### Kendala
 1. Agak kesulitan dalam menentukan argumen apa saja yang ada dalam arg pada `execv` namun dapat diatasi dengan searching dan tanya teman satu kelompok.
 2. Pada saat membuat dan menambah data dalam suatu file sempat berjalan tidak sesuai keinginan karena adanya kesalahan penulisan sintaks.
