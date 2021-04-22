@@ -553,6 +553,27 @@ fprintf(filep, "umur : %s tahun\n\n", tmp3_umur);
 fclose(filep);
 ```
 
+Jangan lupa untuk menghapus semua gambar yang telah disalin ke masing-masing folder sesuai dengan jenisnya.
+```c
+while(wait(&status4) > 0);
+DIR *dirp4;
+struct dirent *entry4;
+dirp4 = opendir("/home/aldo/modul2/petshop");
+while((entry4 = readdir(dirp4)) != NULL) {
+	if((entry4->d_type == DT_REG) && strcmp(entry4->d_name, ".") != 0 && strcmp(entry4->d_name, "..") != 0) {
+	    pid_t cid;
+	    cid = fork();
+	    if(cid < 0) exit(0);
+	    if(cid == 0) {
+		char foldername[300];
+		sprintf(foldername, "/home/aldo/modul2/petshop/%s", entry4->d_name);
+		char *arg[] = {"rm", "-r", foldername, NULL};
+		execv("/bin/rm", arg);
+	    }
+	}
+}
+```
+
 #
 ### Cek keterangan.txt
 https://gist.github.com/segi3/0f90621bb2d118b0b6fadc98d5835b02
