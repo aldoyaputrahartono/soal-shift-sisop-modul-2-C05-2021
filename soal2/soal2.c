@@ -13,7 +13,7 @@
 #include<dirent.h>
 
 int main() {
-    int status, status2, status3;
+    int status, status2, status3, status4;
     
     //soal a
     pid_t cid;
@@ -195,6 +195,25 @@ int main() {
                 //akhir soal e
             }
             //akhir soal d
+        }
+    }
+    
+    //remove gambar
+    while(wait(&status4) > 0);
+    DIR *dirp4;
+    struct dirent *entry4;
+    dirp4 = opendir("/home/aldo/modul2/petshop");
+    while((entry4 = readdir(dirp4)) != NULL) {
+        if((entry4->d_type == DT_REG) && strcmp(entry4->d_name, ".") != 0 && strcmp(entry4->d_name, "..") != 0) {
+            pid_t cid;
+            cid = fork();
+            if(cid < 0) exit(0);
+            if(cid == 0) {
+                char foldername[300];
+                sprintf(foldername, "/home/aldo/modul2/petshop/%s", entry4->d_name);
+                char *arg[] = {"rm", "-r", foldername, NULL};
+                execv("/bin/rm", arg);
+            }
         }
     }
 }
