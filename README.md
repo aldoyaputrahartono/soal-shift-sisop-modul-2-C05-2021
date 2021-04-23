@@ -812,6 +812,20 @@ void generatekiller(char mode[]){
 ```
 
 #
+### Mode -z
+![s31](https://user-images.githubusercontent.com/31863229/115901858-f30c2180-a48b-11eb-9843-08c5417265ac.PNG)
+![s32](https://user-images.githubusercontent.com/31863229/115901869-f6071200-a48b-11eb-83d2-200d207116a8.PNG)
+![s33](https://user-images.githubusercontent.com/31863229/115901873-f7383f00-a48b-11eb-847e-db92f88a0e9a.PNG)
+![s34](https://user-images.githubusercontent.com/31863229/115901881-f99a9900-a48b-11eb-9363-a45882c5af11.PNG)
+![s35](https://user-images.githubusercontent.com/31863229/115901891-fb645c80-a48b-11eb-83dc-e39999bc2c52.PNG)
+![s36](https://user-images.githubusercontent.com/31863229/115901894-fc958980-a48b-11eb-9d21-282f44e5c600.PNG)
+
+#
+### Mode -x
+![s37](https://user-images.githubusercontent.com/31863229/115901901-fe5f4d00-a48b-11eb-9396-50862aeb4325.PNG)
+![s38](https://user-images.githubusercontent.com/31863229/115901911-00c1a700-a48c-11eb-831c-d8530f01acfc.PNG)
+
+#
 ### Kendala
 1. Saat ingin mendownload gambar dari `https://picsum.photos/` awalnya tidak tau bagaimana cara set ukurannya, ternyata tinggal tambahin angka pixelnya pada akhir link tersebut.
 2. Bingung untuk membuat killer mode -x, ternyata kill saja parentnya sehingga child masih dapat berjalan dan nantinya berhenti sendiri terkena `execv`.
