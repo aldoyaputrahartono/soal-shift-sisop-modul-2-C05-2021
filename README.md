@@ -74,6 +74,7 @@ void daemonstart() {
     close(STDERR_FILENO);
 }
 ```
+![s11](https://user-images.githubusercontent.com/31863229/115901113-fb179180-a48a-11eb-91bd-4c2b11d4affa.PNG)
 
 Lalu kita melakukan pembuatan folder sesuai keinginan soal dengan nama Musyik, Fylm, dan Pyoto menggunakan fungsi `execv()` dengan argumen `mkdir`. Gunakan fungsi `fork()` untuk setiap proses pembuatan folder. Kita juga menggunakan `fork()` dan `exec()` agar bisa menjalankan task secara bersamaan.
 ```c
@@ -131,6 +132,8 @@ if(cid6 == 0) {
 ```
 
 Pada saat menjalankan program diatas kita menggunakan fungsi `wait()` untuk menunggu proses yang sebelumnya dijalankan agar selesai terlebih dahulu.
+![s12](https://user-images.githubusercontent.com/31863229/115901167-0b2f7100-a48b-11eb-8b28-735900c0df1c.PNG)
+![s13](https://user-images.githubusercontent.com/31863229/115901172-0cf93480-a48b-11eb-9d6c-b7a73baaee47.PNG)
 
 #
 ### Jawab 1c
@@ -230,6 +233,7 @@ while((entry3 = readdir(dirp3)) != NULL) {
 	}
 }
 ```
+![s14](https://user-images.githubusercontent.com/31863229/115901143-04a0f980-a48b-11eb-9c64-69c6249d023f.PNG)
 
 #
 ### Jawab 1e
@@ -281,6 +285,8 @@ else if(t->tm_mon == 3 && t->tm_mday == 9 && t->tm_hour == 22 && t->tm_min == 22
 ```
 
 Lakukan penggantian waktu dan tanggal pada linux dengan menjalankan command `sudo date --set="2021-04-09 22:21:59"` untuk melihat apakah script telah berjalan dengan benar.
+![s15](https://user-images.githubusercontent.com/31863229/115901153-08348080-a48b-11eb-8c1d-3b54f11b811c.PNG)
+![s16](https://user-images.githubusercontent.com/31863229/115901162-0965ad80-a48b-11eb-8f8f-5e2c49fa2cd0.PNG)
 
 #
 ### Kendala
