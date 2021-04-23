@@ -364,6 +364,7 @@ while((entry = readdir(dirp)) != NULL) {
     }
 }
 ```
+![s21](https://user-images.githubusercontent.com/31863229/115901676-b2aca380-a48b-11eb-8710-a7d46612dfe0.PNG)
 
 #
 ### Jawab 2b
@@ -579,6 +580,9 @@ while((entry4 = readdir(dirp4)) != NULL) {
 	}
 }
 ```
+![s22](https://user-images.githubusercontent.com/31863229/115901684-b6402a80-a48b-11eb-9363-647e129219b9.PNG)
+![s23](https://user-images.githubusercontent.com/31863229/115901690-b809ee00-a48b-11eb-8f3b-86cdc2d3f022.PNG)
+![s24](https://user-images.githubusercontent.com/31863229/115901699-b93b1b00-a48b-11eb-8b6a-5105371e2f9b.PNG)
 
 #
 ### Cek keterangan.txt
